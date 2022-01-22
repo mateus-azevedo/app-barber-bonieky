@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
+import Api from '../../Api';
+
 import {
   Container,
   InputArea,
@@ -22,7 +24,19 @@ export default () => {
   const [emailField, setEmailField] = useState('');
   const [passwordField, setPasswordField] = useState('');
 
-  const handleSignClick = () => {};
+  const handleSignClick = async () => {
+    if (emailField !== '' && passwordField !== '') {
+      let json = await Api.signIn(emailField, passwordField);
+
+      if (json.token) {
+        alert('Deu certo!');
+      } else {
+        alert('E-mail e/ou senha errados!');
+      }
+    } else {
+      alert('Preencha os campos!');
+    }
+  };
 
   const handleMessageButtonClick = () => {
     navigation.reset({
