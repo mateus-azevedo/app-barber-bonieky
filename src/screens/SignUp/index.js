@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
+import {UserContext} from '../../contexts/UserContext';
 import Api from '../../Api';
 
 import {
@@ -20,6 +22,7 @@ import LockIcon from '../../assets/lock.svg';
 import SignInput from '../../components/SignInput';
 
 export default () => {
+  const {dispatch: userDispatch} = useContext(UserContext);
   const navigation = useNavigation();
 
   const [nameField, setNameField] = useState('');
@@ -32,7 +35,18 @@ export default () => {
       console.log(res);
 
       if (res.token) {
-        alert('Deu certo!');
+        await AsyncStorage.setItem('token', res.token);
+
+        userDispatch({
+          type: 'setAvatar',
+          payload: {
+            avatar: res.data.avatar,
+          },
+        });
+
+        navigation.reset({
+          routes: [{name: 'MainTab'}],
+        });
       } else {
         alert('Erro: ' + res.erro);
       }
