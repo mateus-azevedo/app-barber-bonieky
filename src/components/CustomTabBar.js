@@ -19,26 +19,30 @@ const TabItem = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export default () => {
+export default ({state, navigation}) => {
+  const goTo = screenName => {
+    navigation.navigate(screenName);
+  };
+
   return (
     <TabArea>
-      <TabItem>
+      <TabItem onPress={() => goTo('Home')}>
         <HomeIcon width="24" height="24" fill="#FFF" />
       </TabItem>
 
-      <TabItem>
+      <TabItem onPress={() => goTo('Search')}>
         <SearchIcon width="24" height="24" fill="#FFF" />
       </TabItem>
 
-      <TabItem>
+      <TabItem onPress={() => goTo('Appointments')}>
         <TodayIcon width="24" height="24" fill="#FFF" />
       </TabItem>
 
-      <TabItem>
+      <TabItem onPress={() => goTo('Favorites')}>
         <FavoriteIcon width="24" height="24" fill="#FFF" />
       </TabItem>
 
-      <TabItem>
+      <TabItem onPress={() => goTo('Profile')}>
         <AccountIcon width="24" height="24" fill="#FFF" />
       </TabItem>
     </TabArea>
